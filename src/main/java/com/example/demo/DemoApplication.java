@@ -2,9 +2,11 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @RestController
@@ -44,6 +46,22 @@ public class DemoApplication {
 
 	@PutMapping({ "customerId" })
 	public void updateCustomer(@PathVariable("customerid") Integer id, @RequestBody NewCustomerRequest request) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if(customer.isPresent()){
+            Customer updateCustomer = customer.get();
+            if(request.age > 0){
+				updateCustomer.setAge(request.age);
+			}
+			if(request.name != null){
+				updateCustomer.setName(request.name);
+			}
+			if(request.email != null){
+				updateCustomer.setEmail(request.email);
+			}
+			customerRepository.save(updateCustomer);
+
+		}
+		new Error("Customer not found");
 
 	}
 
