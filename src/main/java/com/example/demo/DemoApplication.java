@@ -44,8 +44,8 @@ public class DemoApplication {
 		customerRepository.deleteById(id);
 	}
 
-	@PutMapping({ "customerId" })
-	public void updateCustomer(@PathVariable("customerid") Integer id, @RequestBody NewCustomerRequest request) {
+	@PutMapping( "{customerId}" )
+	public void updateCustomer(@PathVariable("customerId") Integer id, @RequestBody NewCustomerRequest request) {
         Optional<Customer> customer = customerRepository.findById(id);
         if(customer.isPresent()){
             Customer updateCustomer = customer.get();
